@@ -137,5 +137,55 @@ namespace MMABooksTests
             p2.Description = "Updated second";
             Assert.Throws<Exception>(() => p2.Save());
         }
+
+        [Test]
+        public void TestInvalidSetDoesNotChangeProperty()
+        {
+            Product p = new Product(1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => p.UnitPrice = -1m);
+            Assert.AreEqual(56.50m, p.UnitPrice);
+            Assert.IsFalse(p.IsDirty);
+        }
+
+        [Test]
+        public void TestIsDirty()
+        {
+            Product p = new Product(1);
+            Assert.IsFalse(p.IsDirty);
+            p.OnHandQuantity = 10;
+            Assert.IsTrue(p.IsDirty);
+            p.Save();
+            Assert.IsFalse(p.IsDirty);
+        }
+
+        [Test]
+        public void TestUndoChanges()
+        {
+            Product p = new Product(1);
+            string originalDescription = p.Description;
+            p.Description = "Changed description";
+            p.UndoChanges();
+            Assert.AreEqual(originalDescription, p.Description);
+            Assert.IsFalse(p.IsDirty);
+        }
+
+        [Test]
+        public void TestIsDeleted()
+        {
+            Product p = new Product(16);
+            Assert.IsFalse(p.IsDeleted);
+            p.Delete();
+            Assert.IsTrue(p.IsDeleted);
+            p.UndoChanges();
+            Assert.IsFalse(p.IsDeleted);
+        }
+
+        [Test]
+        public void TestToString()
+        {
+            Product p = new Product(1);
+            Assert.IsTrue(p.ToString().Contains(p.ProductCode));
+            Assert.IsTrue(p.ToString().Contains("ASP.NET"));
+        }
     }
 }

@@ -96,5 +96,32 @@ namespace MMABooksTests
             p.OnHandQuantity = 1;
             Assert.Throws<MySqlException>(() => db.Create(p));
         }
+
+        [Test]
+        public void TestRetrieveDoesNotExist()
+        {
+            Assert.Throws<Exception>(() => db.Retrieve(99999));
+        }
+
+        [Test]
+        public void TestUpdateConcurrencyIssue()
+        {
+            ProductProps p1 = (ProductProps)db.Retrieve(1);
+            ProductProps p2 = (ProductProps)db.Retrieve(1);
+            p1.Description = "Updated first";
+            Assert.True(db.Update(p1));
+            p2.Description = "Updated second";
+            Assert.Throws<Exception>(() => db.Update(p2));
+        }
+
+        [Test]
+        public void TestDeleteConcurrencyIssue()
+        {
+            ProductProps p1 = (ProductProps)db.Retrieve(16);
+            ProductProps p2 = (ProductProps)db.Retrieve(16);
+            p1.Description = "Updated first";
+            Assert.True(db.Update(p1));
+            Assert.Throws<Exception>(() => db.Delete(p2));
+        }
     }
 }

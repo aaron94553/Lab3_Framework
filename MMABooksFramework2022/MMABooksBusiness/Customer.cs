@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace MMABooksBusiness
 {
+    /// <summary>
+    /// Business object for a customer. Validates property values and saves changes through CustomerDB.
+    /// </summary>
     public class Customer : BaseBusiness
     {
         /// <summary>
@@ -21,6 +24,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Customer name. Required. Must be 1-100 characters or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public string Name
         {
             get
@@ -46,6 +52,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Street address. Required. Must be 1-50 characters or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public string Address
         {
             get
@@ -71,6 +80,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// City. Required. Must be 1-20 characters or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public string City
         {
             get
@@ -96,6 +108,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Two-letter state code. Required. Must be exactly 2 characters or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public string State
         {
             get
@@ -121,6 +136,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Zip code. Required. Must be 1-15 characters or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public string ZipCode
         {
             get
@@ -146,6 +164,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Returns a List of every customer in the database.
+        /// </summary>
         public override object GetList()
         {
             List<Customer> customers = new List<Customer>();
@@ -161,6 +182,9 @@ namespace MMABooksBusiness
             return customers;
         }
 
+        /// <summary>
+        /// Sets default property values for a new customer. No defaults are needed.
+        /// </summary>
         protected override void SetDefaultProperties()
         {
         }
@@ -207,6 +231,9 @@ namespace MMABooksBusiness
         {
         }
 
+        /// <summary>
+        /// Creates a customer from a props object. Used by GetList.
+        /// </summary>
         private Customer(CustomerProps props)
             : base(props)
         {

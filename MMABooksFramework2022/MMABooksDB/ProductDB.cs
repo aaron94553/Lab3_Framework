@@ -18,11 +18,23 @@ using DBDbType = MySql.Data.MySqlClient.MySqlDbType;
 
 namespace MMABooksDB
 {
+    /// <summary>
+    /// Performs CRUD operations on the Products table through stored procedures.
+    /// </summary>
     public class ProductDB : DBBase, IReadDB, IWriteDB
     {
+        /// <summary>
+        /// Creates a ProductDB that uses the connection string from mySqlSettings.json.
+        /// </summary>
         public ProductDB() : base() { }
+        /// <summary>
+        /// Creates a ProductDB that uses an existing connection.
+        /// </summary>
         public ProductDB(DBConnection cn) : base(cn) { }
 
+        /// <summary>
+        /// Inserts a new product and sets its ProductID and ConcurrencyID. Returns the updated props.
+        /// </summary>
         public IBaseProps Create(IBaseProps p)
         {
             int rowsAffected = 0;
@@ -66,6 +78,9 @@ namespace MMABooksDB
             }
         }
 
+        /// <summary>
+        /// Deletes a product. Throws an exception if the record was changed by another user (ConcurrencyID mismatch).
+        /// </summary>
         public bool Delete(IBaseProps p)
         {
             ProductProps props = (ProductProps)p;
@@ -104,6 +119,9 @@ namespace MMABooksDB
             }
         }
 
+        /// <summary>
+        /// Retrieves one product by ProductID. Throws an exception if the record does not exist.
+        /// </summary>
         public IBaseProps Retrieve(object key)
         {
             DBDataReader data = null;
@@ -144,6 +162,9 @@ namespace MMABooksDB
             }
         }
 
+        /// <summary>
+        /// Retrieves every product. Returns a List of ProductProps.
+        /// </summary>
         public object RetrieveAll()
         {
             List<ProductProps> list = new List<ProductProps>();
@@ -178,6 +199,9 @@ namespace MMABooksDB
             }
         }
 
+        /// <summary>
+        /// Updates a product and increments its ConcurrencyID. Throws an exception if the record was changed by another user.
+        /// </summary>
         public bool Update(IBaseProps p)
         {
             int rowsAffected = 0;

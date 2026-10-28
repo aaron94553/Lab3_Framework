@@ -96,5 +96,32 @@ namespace MMABooksTests
             p.ZipCode = "10001";
             Assert.Throws<MySqlException>(() => db.Create(p));
         }
+
+        [Test]
+        public void TestRetrieveDoesNotExist()
+        {
+            Assert.Throws<Exception>(() => db.Retrieve(99999));
+        }
+
+        [Test]
+        public void TestUpdateConcurrencyIssue()
+        {
+            CustomerProps p1 = (CustomerProps)db.Retrieve(1);
+            CustomerProps p2 = (CustomerProps)db.Retrieve(1);
+            p1.Name = "Updated first";
+            Assert.True(db.Update(p1));
+            p2.Name = "Updated second";
+            Assert.Throws<Exception>(() => db.Update(p2));
+        }
+
+        [Test]
+        public void TestDeleteConcurrencyIssue()
+        {
+            CustomerProps p1 = (CustomerProps)db.Retrieve(2);
+            CustomerProps p2 = (CustomerProps)db.Retrieve(2);
+            p1.Name = "Updated first";
+            Assert.True(db.Update(p1));
+            Assert.Throws<Exception>(() => db.Delete(p2));
+        }
     }
 }

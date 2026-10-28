@@ -18,11 +18,23 @@ using DBDbType = MySql.Data.MySqlClient.MySqlDbType;
 
 namespace MMABooksDB
 {
+    /// <summary>
+    /// Performs CRUD operations on the Customers table through stored procedures.
+    /// </summary>
     public class CustomerDB : DBBase, IReadDB, IWriteDB
     {
+        /// <summary>
+        /// Creates a CustomerDB that uses the connection string from mySqlSettings.json.
+        /// </summary>
         public CustomerDB() : base() { }
+        /// <summary>
+        /// Creates a CustomerDB that uses an existing connection.
+        /// </summary>
         public CustomerDB(DBConnection cn) : base(cn) { }
 
+        /// <summary>
+        /// Inserts a new customer and sets its CustomerID and ConcurrencyID. Returns the updated props.
+        /// </summary>
         public IBaseProps Create(IBaseProps p)
         {
             int rowsAffected = 0;
@@ -68,6 +80,9 @@ namespace MMABooksDB
             }
         }
 
+        /// <summary>
+        /// Deletes a customer. Throws an exception if the record was changed by another user (ConcurrencyID mismatch).
+        /// </summary>
         public bool Delete(IBaseProps p)
         {
             CustomerProps props = (CustomerProps)p;
@@ -106,6 +121,9 @@ namespace MMABooksDB
             }
         }
 
+        /// <summary>
+        /// Retrieves one customer by CustomerID. Throws an exception if the record does not exist.
+        /// </summary>
         public IBaseProps Retrieve(object key)
         {
             DBDataReader data = null;
@@ -146,6 +164,9 @@ namespace MMABooksDB
             }
         }
 
+        /// <summary>
+        /// Retrieves every customer. Returns a List of CustomerProps.
+        /// </summary>
         public object RetrieveAll()
         {
             List<CustomerProps> list = new List<CustomerProps>();
@@ -180,6 +201,9 @@ namespace MMABooksDB
             }
         }
 
+        /// <summary>
+        /// Updates a customer and increments its ConcurrencyID. Throws an exception if the record was changed by another user.
+        /// </summary>
         public bool Update(IBaseProps p)
         {
             int rowsAffected = 0;

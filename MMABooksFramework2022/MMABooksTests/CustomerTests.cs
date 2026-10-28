@@ -141,5 +141,55 @@ namespace MMABooksTests
             c2.Name = "Updated second";
             Assert.Throws<Exception>(() => c2.Save());
         }
+
+        [Test]
+        public void TestInvalidSetDoesNotChangeProperty()
+        {
+            Customer c = new Customer(1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => c.State = "???");
+            Assert.AreEqual("AL", c.State);
+            Assert.IsFalse(c.IsDirty);
+        }
+
+        [Test]
+        public void TestIsDirty()
+        {
+            Customer c = new Customer(1);
+            Assert.IsFalse(c.IsDirty);
+            c.City = "Klamath Falls";
+            Assert.IsTrue(c.IsDirty);
+            c.Save();
+            Assert.IsFalse(c.IsDirty);
+        }
+
+        [Test]
+        public void TestUndoChanges()
+        {
+            Customer c = new Customer(1);
+            string originalName = c.Name;
+            c.Name = "Changed Name";
+            c.UndoChanges();
+            Assert.AreEqual(originalName, c.Name);
+            Assert.IsFalse(c.IsDirty);
+        }
+
+        [Test]
+        public void TestIsDeleted()
+        {
+            Customer c = new Customer(2);
+            Assert.IsFalse(c.IsDeleted);
+            c.Delete();
+            Assert.IsTrue(c.IsDeleted);
+            c.UndoChanges();
+            Assert.IsFalse(c.IsDeleted);
+        }
+
+        [Test]
+        public void TestToString()
+        {
+            Customer c = new Customer(1);
+            Assert.IsTrue(c.ToString().Contains(c.Name));
+            Assert.IsTrue(c.ToString().Contains(c.City));
+        }
     }
 }

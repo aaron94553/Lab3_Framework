@@ -8,6 +8,9 @@ using System.Text.Json.Serialization;
 
 namespace MMABooksProps
 {
+    /// <summary>
+    /// Holds the field values for one customer record. Used to move data between the database class and the business class.
+    /// </summary>
     [Serializable()]
     public class CustomerProps : IBaseProps
     {
@@ -30,6 +33,9 @@ namespace MMABooksProps
         public int ConcurrencyID { get; set; } = 0;
         #endregion
 
+        /// <summary>
+        /// Makes a field-by-field copy of this CustomerProps object.
+        /// </summary>
         public object Clone()
         {
             CustomerProps p = new CustomerProps();
@@ -43,6 +49,9 @@ namespace MMABooksProps
             return p;
         }
 
+        /// <summary>
+        /// Serializes this object to a JSON string.
+        /// </summary>
         public string GetState()
         {
             string jsonString;
@@ -50,6 +59,9 @@ namespace MMABooksProps
             return jsonString;
         }
 
+        /// <summary>
+        /// Sets every field from a JSON string created by GetState.
+        /// </summary>
         public void SetState(string jsonString)
         {
             CustomerProps p = JsonSerializer.Deserialize<CustomerProps>(jsonString);
@@ -62,6 +74,9 @@ namespace MMABooksProps
             this.ConcurrencyID = p.ConcurrencyID;
         }
 
+        /// <summary>
+        /// Sets every field from the current row of a data reader.
+        /// </summary>
         public void SetState(DBDataReader dr)
         {
             this.CustomerID = (Int32)dr["CustomerID"];

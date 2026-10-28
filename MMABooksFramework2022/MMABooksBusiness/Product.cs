@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace MMABooksBusiness
 {
+    /// <summary>
+    /// Business object for a product. Validates property values and saves changes through ProductDB.
+    /// </summary>
     public class Product : BaseBusiness
     {
         /// <summary>
@@ -21,6 +24,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Product code. Required. Must be 1-10 characters or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public string ProductCode
         {
             get
@@ -46,6 +52,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Product description. Required. Must be 1-50 characters or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public string Description
         {
             get
@@ -73,6 +82,9 @@ namespace MMABooksBusiness
 
         // For the numbers, the rule is cleared even when the value doesn't change,
         // so setting a price or quantity of 0 still counts as "set".
+        /// <summary>
+        /// Price per unit. Required. Cannot be negative or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public decimal UnitPrice
         {
             get
@@ -95,6 +107,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Quantity in stock. Required. Cannot be negative or an ArgumentOutOfRangeException is thrown.
+        /// </summary>
         public int OnHandQuantity
         {
             get
@@ -117,6 +132,9 @@ namespace MMABooksBusiness
             }
         }
 
+        /// <summary>
+        /// Returns a List of every product in the database.
+        /// </summary>
         public override object GetList()
         {
             List<Product> products = new List<Product>();
@@ -132,6 +150,9 @@ namespace MMABooksBusiness
             return products;
         }
 
+        /// <summary>
+        /// Sets default property values for a new product. No defaults are needed.
+        /// </summary>
         protected override void SetDefaultProperties()
         {
         }
@@ -177,6 +198,9 @@ namespace MMABooksBusiness
         {
         }
 
+        /// <summary>
+        /// Creates a product from a props object. Used by GetList.
+        /// </summary>
         private Product(ProductProps props)
             : base(props)
         {
